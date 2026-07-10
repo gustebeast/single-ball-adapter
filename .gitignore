@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.vscode/
+
+# Rendered previews are regenerated on every build.
+preview/
