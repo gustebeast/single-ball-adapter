@@ -16,9 +16,8 @@ import cadquery as cq
 
 # Shared FreeCAD viewer helper (Archive/3D/freecad). show() makes the build's
 # output viewable — opens or refreshes its tab in the FreeCAD hub. Never raises.
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2] / "freecad"))
-from freecad_view import show
-from step_export import export_step
+from cadkit.freecad import show
+from cadkit.step_export import export_step
 
 from .helpers import heal
 from . import adapter as _adapter_mod
