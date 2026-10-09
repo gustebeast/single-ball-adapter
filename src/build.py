@@ -31,32 +31,33 @@ PARTS = {
     "adapter": (adapter, "adapter.step", "STADB05 5-string single-ball adapter body"),
 }
 
-# ── PRINT ORIENTATION — cadkit requires every printed part to declare its bed
-# face, and export refuses one that has not (cadkit/AGENTS.md).
+# ── PRINT ORIENTATION — the adapter's bed face, declared once, where cadkit's
+# export reads it (cadkit/AGENTS.md).
 #
-# 🚩 UNCONFIRMED. This records what the STEP has ALWAYS exported as — the part
-# as modelled — so nothing about how it prints changes. It is NOT a studied
-# decision, and this part is the kind where that matters most: it carries
-# STRING TENSION, so the print direction decides whether that load is pulled
-# across layer boundaries or along beads, and no overhang measurement can see
-# a load path.
-#
-# What the measurement says, for whoever settles this
+# STANDS ON ITS +x FACE (user, 2026-10-08). That face is the bed and the part
+# builds toward -x. Measured against all six axis-aligned candidates
 # (cadkit.tools.suggest_orientation, 0.8 nozzle):
-#   ((0, 1, 0), -90)  on its +x face  148 mm2 unsupported, 806 mm2 on the
-#                                     plate, aspect 0.7   <- best measured
-#   None (as modelled)                381 mm2 unsupported, 726 mm2, aspect 1.5
-#   'flip'                            996 mm2 unsupported, 7 mm2 on the plate
-# so there is a real case for re-posing it onto its +x face — 2.6x less
-# unsupported area and a wider base. CONFIRM THE LOAD DIRECTION FIRST.
+#
+#   ((0, 1, 0), -90)  +x face down   148 mm2 unsupported   806 mm2 on the plate
+#   None (as modelled)               381 mm2               726 mm2
+#   ((0, 1, 0), 90)   -x face down   560 mm2               425 mm2
+#   'flip'                           996 mm2                 7 mm2
+#
+# so it is 2.6x less unsupported face than printing it as modelled, on a wider
+# base. It also decides the LAYER DIRECTION, which is the part that no overhang
+# number can see: this adapter carries string tension, so the question was
+# whether that load is pulled across layer boundaries or along beads. The user
+# settled it.
+#
+# Before this the STEP exported as modelled, because nothing had ever declared
+# a bed face and export could not tell that from a deliberate choice (#1070).
 PRINT_ORIENTATION = {
-    "adapter": PO(None,
-                  "as modelled — what this part's STEP has always exported "
-                  "as, kept so the migration changes no print. UNSTUDIED: "
-                  "see the note above; the +x face measures 2.6x less "
-                  "unsupported area, but this part carries string tension "
-                  "and the layer direction is the question, not the overhangs",
-                  confirmed=False),
+    "adapter": PO.from_build_dir(
+        (-1.0, 0.0, 0.0),
+        "stands on its +x face and builds toward -x (user) — 148 mm2 of "
+        "unsupported face against 381 as modelled, on an 806 mm2 base, and "
+        "the string tension then runs the way the user wants it through the "
+        "layers"),
 }
 require_declared(set(PARTS), PRINT_ORIENTATION)
 
