@@ -48,8 +48,8 @@ py -3.12 tools/preview.py              # render every .step in repo root
 ### Viewing
 
 Every `py -3.12 -m src.build` also opens (or refreshes) `adapter.step` in the
-shared FreeCAD viewer hub — best-effort via `Archive/3D/freecad`; it never
-breaks the build. See `Archive/3D/freecad/README.md`.
+web viewer (`cadkit.web`), a page in the browser. It is best-effort and never
+breaks the build.
 
 Geometry-regression check:
 
@@ -65,7 +65,7 @@ py -3.12 tools/check_geometry.py --update-baseline   # bless current as new base
 | `src/dimensions.py`    | Top-level dimensional / fit constants + sanity asserts          |
 | `src/helpers.py`       | Geometric helpers (`cyl`, `countersink_cutter_x`, `heal`)       |
 | `src/adapter.py`       | The adapter body — L-profile, mount holes, string grooves, clamp holes |
-| `src/build.py`         | Orchestrator: heals, exports STEP, opens the FreeCAD viewer. CLI: `--part NAME` / `--list` |
+| `src/build.py`         | Orchestrator: heals, exports STEP, opens the web viewer. CLI: `--part NAME` / `--list` |
 | `tools/check_geometry.py` | bbox/volume/centroid regression check vs `baseline.tsv`      |
 | `tools/preview.py`     | Headless matplotlib PNG renderer of the built STEP(s)           |
 

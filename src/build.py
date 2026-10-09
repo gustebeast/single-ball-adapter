@@ -14,9 +14,9 @@ import sys
 
 import cadquery as cq
 
-# Shared FreeCAD viewer helper (Archive/3D/freecad). show() makes the build's
-# output viewable — opens or refreshes its tab in the FreeCAD hub. Never raises.
-from cadkit.freecad import show
+# show() makes the build's output viewable: it opens or refreshes the model's page
+# in the web viewer (cadkit.web). Never raises.
+from cadkit.web import show
 from cadkit.step_export import export_print
 from cadkit.orientation import (PrintOrientation as PO,
                                 require_declared, unconfirmed)
